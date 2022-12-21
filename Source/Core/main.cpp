@@ -1,10 +1,19 @@
 
-//
+/*
+* 
+*	
+*		CHIP 8 EMULATOR MADE BY ME :D
+* 
+* 
+* 
+*/
+
 #include <stdio.h>
 #include <windows.h>
+#include <iostream>
 
-#include "SDL_syswm.h"
 #include "SDL.h"
+#include "SDL_syswm.h"
 
 #include "utilities.h"
 
@@ -14,12 +23,18 @@ const int SCREEN_HEIGHT = 480;
 
 int main(int argc, char* args[])
 {
+	// Initialize control variables
 	SDL_Window* window = NULL;
 	SDL_Surface* screenSurface = NULL;
-	HWND windowHandler;
+	
 	SDL_Event mainEvent;
+	
+	HWND windowHandler;
 
-	// Initialize SDL
+	bool isRunning = true;
+
+
+	// Initialize SDL and main window variables
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
@@ -31,7 +46,6 @@ int main(int argc, char* args[])
 
 	 windowHandler = utilities::getSDLWinHandle(window);
 
-	 //Activate the menu bar of the window
 	 utilities::ActivateMenu(windowHandler);
 
 	// Check if window failed
@@ -47,13 +61,50 @@ int main(int argc, char* args[])
 	//Update the surface
 	SDL_UpdateWindowSurface(window);
 
-	//Hack to get window to stay up
-	SDL_Event e; bool quit = false; while (quit == false) { while (SDL_PollEvent(&e)) { if (e.type == SDL_QUIT) quit = true; } }
+	// Enable WinAPI Events Processing
+	SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);
 
-	//Destroy window
+	// Main loop for application
+	while(isRunning)
+	{
+
+		// Input logic
+		SDL_PollEvent(&mainEvent);
+
+		switch (mainEvent.type)
+		{
+		case SDL_WINDOWEVENT_CLOSE:
+			mainEvent.type = SDL_QUIT;
+			SDL_PushEvent(&mainEvent);
+			break;
+
+		case SDL_QUIT:
+			isRunning = false;
+			break;
+
+		case SDL_SYSWMEVENT:
+			if (mainEvent.syswm.msg->msg.win.msg == WM_COMMAND)
+			{
+				switch (LOWORD(mainEvent.syswm.msg->msg.win.wParam))
+				{
+				case ID_LOADROM:
+					;
+					break;
+
+				case ID_CONTROLS:
+					;
+					break;
+
+				case ID_EXIT:
+					isRunning = false;
+					break;
+				}
+			}
+		}
+	}
+
+	// Closing operations
 	SDL_DestroyWindow(window);
-
-	//Quit SDL subsystems
 	SDL_Quit();
 
 	return 0;
