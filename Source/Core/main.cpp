@@ -95,6 +95,10 @@ int main(int argc, char* args[])
 					;
 					break;
 
+				case ID_ABOUT:
+					;
+					break;
+
 				case ID_EXIT:
 					isRunning = false;
 					break;
