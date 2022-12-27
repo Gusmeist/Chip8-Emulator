@@ -33,7 +33,6 @@ int main(int argc, char* args[])
 
 	bool isRunning = true;
 
-
 	// Initialize SDL and main window variables
 	if (SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
@@ -63,6 +62,9 @@ int main(int argc, char* args[])
 
 	// Enable WinAPI Events Processing
 	SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);
+
+	// Initialize system components
+	
 
 	// Main loop for application
 	while(isRunning)

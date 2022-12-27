@@ -11,6 +11,8 @@
 #define ID_EXIT 3
 #define ID_CONTROLS 4
 
+#define KILOBYTE 1024
+
 namespace utilities
 {
 	static HMENU hHelp;
