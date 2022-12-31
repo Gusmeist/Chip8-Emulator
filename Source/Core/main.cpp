@@ -28,9 +28,7 @@ int main(int argc, char* args[])
 	// Initialize control variables
 	SDL_Window* window = NULL;
 	SDL_Surface* screenSurface = NULL;
-	
 	SDL_Event mainEvent;
-	
 	HWND windowHandler;
 
 	bool isRunning = true;
@@ -45,22 +43,12 @@ int main(int argc, char* args[])
 	
 	 window = SDL_CreateWindow("TEST :D", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	 screenSurface = SDL_GetWindowSurface(window);
-
+	
 	 windowHandler = utilities::getSDLWinHandle(window);
-
 	 utilities::ActivateMenu(windowHandler);
-
-	// Check if window failed
-	if (window == NULL)
-	{
-		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-		exit(-1);
-	}
 
 	//Fill the surface white
 	SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0xFF, 0xFF, 0xFF));
-
-	//Update the surface
 	SDL_UpdateWindowSurface(window);
 
 	// Enable WinAPI Events Processing
