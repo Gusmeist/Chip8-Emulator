@@ -1,18 +1,25 @@
-#ifndef H_MEMORY
-#define H_MEMORY
+#ifndef MEMORY_H
+#define MEMORY_H
 
 #include <stdio.h>
 #include <Windows.h>
+#include <stdint.h>
 
-class memory
+class Memory
 {
 public:
-	memory(int size);
+	Memory(int size);
 
-	~memory();
+	~Memory();
+
+	uint8_t read(uint16_t address);
+
+	void write(uint16_t address, uint8_t value);
+
+	void clear(uint16_t l_address, uint16_t u_address);
 
 private:
-	byte[] test;
+	uint8_t* data;
 };
 
 #endif

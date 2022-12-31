@@ -11,7 +11,15 @@
 #define ID_EXIT 3
 #define ID_CONTROLS 4
 
-#define KILOBYTE 1024
+// Conversion constants & System constants
+const int KILOBYTE = 1024;
+
+const int SCREEN_FPS = 60;
+const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
+
+// Screen dimension constants
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
 
 namespace utilities
 {
