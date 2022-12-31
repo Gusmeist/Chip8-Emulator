@@ -82,8 +82,6 @@ int main(int argc, char* args[])
 	
 	std::stack<uint16_t> Stack;
 
-	
-
 	// Create font array
 	uint8_t font[] =
 	{
