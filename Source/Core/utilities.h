@@ -15,7 +15,9 @@
 const int KILOBYTE = 1024;
 
 const int SCREEN_FPS = 60;
-const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
+const int CLOCK_SPEED = 700;
+const double SCREEN_TICKS_PER_FRAME = 1.0 / SCREEN_FPS;
+const double TIME_PER_CPU_TICK = 1.0 / CLOCK_SPEED;
 
 // Screen dimension constants
 const int SCREEN_WIDTH = 640;

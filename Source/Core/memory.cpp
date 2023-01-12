@@ -4,6 +4,14 @@ Memory::Memory(int size)
 {
 	uint8_t* _data = new uint8_t[size];
 	data = _data;
+	delete[] _data;
+
+	int i = 0x050;
+	for (auto value : fontData)
+	{
+		write(i, value);
+		i++;
+	}
 }
 
 Memory::~Memory()
@@ -27,4 +35,9 @@ void Memory::clear(uint16_t l_address, uint16_t u_address)
 	{
 		data[i] = 0;
 	}
+}
+
+uint8_t* Memory::getData()
+{
+	return data;
 }
