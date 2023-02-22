@@ -12,7 +12,7 @@ public:
 	~memory();
 
 private:
-	byte[] test;
+	byte test[];
 };
 
 #endif
