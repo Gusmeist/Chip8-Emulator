@@ -24,7 +24,7 @@
 int main(int argc, char* args[])
 {
 
-	CPU* _CPU = new CPU;
+	CPU* _CPU = new CPU();
 	
 	bool isRunning = true;
 
@@ -64,9 +64,13 @@ int main(int argc, char* args[])
 					std::cout << '\n' << filePath;
 
 					inputFile.open(filePath, std::ios::binary);
+					
+					uint16_t currAddress = 0x0200;
 					while (inputFile.good())
 					{
 						loadBuffer = inputFile.get();
+						_CPU->RAM->write(currAddress, loadBuffer);
+						currAddress += 0x0001;
 					}
 
 					break;
