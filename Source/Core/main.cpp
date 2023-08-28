@@ -11,26 +11,30 @@
 #include <stdio.h>
 #include <windows.h>
 #include <iostream>
-#include <stack>
 #include <stdint.h>
-#include <string>
 #include <fstream>
+#include <string>
 
 #include "SDL.h"
-#include "SDL_syswm.h"
 
+#include "sdl_interface.h"
+
+#include "memory.h"
 #include "cpu.h"
 
 int main(int argc, char* args[])
 {
+	// SDL Initialization and setup
+	if (!sdli::init()) 
+		return -1;
 
-	CPU* _CPU = new CPU();
-	
+	Memory mem;
+	CPU cpu;
 	bool isRunning = true;
 
 	std::string filePath;
 	std::ifstream inputFile;
-	uint8_t loadBuffer;
+	Byte loadBuffer;
 
 	SDL_Event mainEvent;
 
@@ -52,47 +56,17 @@ int main(int argc, char* args[])
 		case SDL_QUIT:
 			isRunning = false;
 			break;
-
-		case SDL_SYSWMEVENT:
-			if (mainEvent.syswm.msg->msg.win.msg == WM_COMMAND)
+		case SDL_KEYDOWN:
+			switch (mainEvent.key.keysym.sym)
 			{
-				switch (LOWORD(mainEvent.syswm.msg->msg.win.wParam))
-				{
-				case ID_LOADROM:
-					std::cout << "Enter file path for ROM: ";
-					std::getline(std::cin, filePath);
-					std::cout << '\n' << filePath;
-
-					inputFile.open(filePath, std::ios::binary);
-					
-					uint16_t currAddress = 0x0200;
-					while (inputFile.good())
-					{
-						loadBuffer = inputFile.get();
-						_CPU->RAM->write(currAddress, loadBuffer);
-						currAddress += 0x0001;
-					}
-
-					break;
-
-				case ID_CONTROLS:
-					;
-					break;
-
-				case ID_ABOUT:
-					;
-					break;
-
-				case ID_EXIT:
-					isRunning = false;
-					break;
-				}
+				;
 			}
 		}
+
+		cpu.Render(mem);
 	}
 
 	// Closing operations
-	SDL_DestroyWindow(_CPU->screen->getWindow());
-	SDL_Quit();
+	sdli::close();
 	return 0;
 }

@@ -149,16 +149,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cpu.cpp" />
-    <ClCompile Include="display.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="memory.cpp" />
-    <ClCompile Include="utilities.cpp" />
+    <ClCompile Include="mystack.cpp" />
+    <ClCompile Include="time_keeper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cpu.h" />
-    <ClInclude Include="display.h" />
     <ClInclude Include="memory.h" />
-    <ClInclude Include="utilities.h" />
+    <ClInclude Include="sdl_interface.h" />
+    <ClInclude Include="mystack.h" />
+    <ClInclude Include="time_keeper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
