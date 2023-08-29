@@ -13,7 +13,7 @@ private:
 	SDL_Rect pixel;
 
 public:
-	bool ScreenBuffer[SCREEN_PIXEL_WIDTH][SCREEN_PIXEL_HEIGHT] = { 1 };
+	bool ScreenBuffer[SCREEN_PIXEL_WIDTH][SCREEN_PIXEL_HEIGHT] = { 0 };
 
 	Display(SDLI& SDLInterface);
 	~Display();

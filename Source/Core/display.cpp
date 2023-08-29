@@ -4,8 +4,8 @@ Display::Display(SDLI& sdli)
 {
 	pixel.x = 0;
 	pixel.y = 0;
-	pixel.w = sdli.INIT_SCREEN_WIDTH / SCREEN_PIXEL_WIDTH;
-	pixel.h = sdli.INIT_SCREEN_HEIGHT / SCREEN_PIXEL_HEIGHT;
+	pixel.w = INIT_SCREEN_WIDTH / SCREEN_PIXEL_WIDTH;
+	pixel.h = INIT_SCREEN_HEIGHT / SCREEN_PIXEL_HEIGHT;
 }
 
 Display::~Display()
@@ -17,7 +17,7 @@ void Display::DrawBuffer(SDLI& sdli)
 	SDL_SetRenderDrawColor(sdli.mainRenderer, 0x00, 0x00, 0x00, 0x00);
 	SDL_RenderClear(sdli.mainRenderer);
 
-	SDL_SetRenderDrawColor(sdli.mainRenderer, 0x00, 0xFF, 0x00, 0xFF);
+	SDL_SetRenderDrawColor(sdli.mainRenderer, 0x00, 0xAA, 0x00, 0xFF);
 
 	pixel.x = 0;
 	pixel.y = 0;

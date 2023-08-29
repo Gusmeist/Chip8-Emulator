@@ -11,6 +11,7 @@
 using Byte = unsigned char;
 using Word = unsigned short;
 
+
 struct CPU
 {
 private:
@@ -44,11 +45,25 @@ public:
 	CPU();
 	~CPU();
 
-	void Process(Memory& ActiveMemory);
+	void Process(Display& ActiveDisplay, Memory& ActiveMemory);
 	void Render(Display& ActiveDisplay, SDLI& SDLInterface);
 };
 
-typedef enum class Instruction_Code
+typedef enum Instruction_Code
 {
-	a, b, c
+	x00EN = 0, 
+	x1NNN, 
+	x2NNN, 
+	x3XNN, 
+	x4XNN, 
+	x5XY0, 
+	x6XNN,
+	x7XNN,
+	x8XYN,
+	x9XY0,
+	xANNN,
+	xBNNN,
+	xCXNN,
+	xDXYN,
+	xEXNN
 } ins;
