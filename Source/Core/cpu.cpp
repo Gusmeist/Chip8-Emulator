@@ -30,15 +30,16 @@ void CPU::Process(Memory& mem)
 	}
 }
 
-void CPU::Render(Memory& mem)
+void CPU::Render(Display& disp, SDLI& sdli)
 {
-	if (timeKeeper.GetTime() < MILLISECONDS_PER_FRAME)
-		return;
+	while (timeKeeper.GetTime() < MILLISECONDS_PER_FRAME);
 
 	if (delayTimer > 0)
 		delayTimer--;
 	if (soundTimer > 0)
 		soundTimer--;
+
+	disp.DrawBuffer(sdli);
 
 
 	currentInstructionCount = INSTRUCTIONS_PER_FRAME;

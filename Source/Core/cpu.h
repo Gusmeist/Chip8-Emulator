@@ -3,7 +3,9 @@
 #include <stdio.h>
 
 #include "memory.h"
+#include "display.h"
 #include "time_keeper.h"
+#include "sdl_interface.h"
 
 // Custom typedefs for ease of reading/use
 using Byte = unsigned char;
@@ -43,7 +45,7 @@ public:
 	~CPU();
 
 	void Process(Memory& ActiveMemory);
-	void Render(Memory& ActiveMemory);
+	void Render(Display& ActiveDisplay, SDLI& SDLInterface);
 };
 
 typedef enum class Instruction_Code

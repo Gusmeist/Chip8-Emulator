@@ -15,21 +15,24 @@
 #include <fstream>
 #include <string>
 
-#include "SDL.h"
+#include <SDL.h>
 
 #include "sdl_interface.h"
 
 #include "memory.h"
 #include "cpu.h"
+#include "display.h"
 
 int main(int argc, char* args[])
 {
+	SDLI sdli;
 	// SDL Initialization and setup
-	if (!sdli::init()) 
+	if (!sdli.init()) 
 		return -1;
 
 	Memory mem;
 	CPU cpu;
+	Display disp(sdli);
 	bool isRunning = true;
 
 	std::string filePath;
@@ -63,10 +66,10 @@ int main(int argc, char* args[])
 			}
 		}
 
-		cpu.Render(mem);
+		cpu.Render(disp, sdli);
 	}
 
 	// Closing operations
-	sdli::close();
+	sdli.close();
 	return 0;
 }

@@ -149,13 +149,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cpu.cpp" />
+    <ClCompile Include="display.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="memory.cpp" />
     <ClCompile Include="mystack.cpp" />
+    <ClCompile Include="sdl_interface.cpp" />
     <ClCompile Include="time_keeper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cpu.h" />
+    <ClInclude Include="display.h" />
     <ClInclude Include="memory.h" />
     <ClInclude Include="sdl_interface.h" />
     <ClInclude Include="mystack.h" />
