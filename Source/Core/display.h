@@ -15,7 +15,7 @@ private:
 public:
 	bool ScreenBuffer[SCREEN_PIXEL_WIDTH][SCREEN_PIXEL_HEIGHT] = { 0 };
 
-	Display(SDLI& SDLInterface);
+	Display();
 	~Display();
 
 	void DrawBuffer(SDLI& SDLInterface);

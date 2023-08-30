@@ -1,6 +1,6 @@
 #include "display.h"
 
-Display::Display(SDLI& sdli)
+Display::Display()
 {
 	pixel.x = 0;
 	pixel.y = 0;

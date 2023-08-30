@@ -29,10 +29,8 @@ int main(int argc, char* args[])
 	// SDL Initialization and setup
 	if (!sdli.init()) 
 		return -1;
-
-	Memory mem;
+	
 	CPU cpu;
-	Display disp(sdli);
 	bool isRunning = true;
 
 	std::string filePath;
@@ -66,7 +64,7 @@ int main(int argc, char* args[])
 			}
 		}
 
-		cpu.Render(disp, sdli);
+		cpu.Render(sdli);
 	}
 
 	// Closing operations

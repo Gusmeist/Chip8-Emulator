@@ -27,6 +27,7 @@ private:
 	int currentInstructionCount;
 
 	TimeKeeper timeKeeper;
+	Display disp;
 
 	Byte delayTimer;
 	Byte soundTimer;
@@ -40,23 +41,41 @@ private:
 	// General variable registrs.
 	Byte V[15] = { 0 };
 
+	void _00EN(Byte Nibbles[]);
+	void _1NNN(Byte Nibbles[]);
+	void _2NNN(Byte Nibbles[]);
+	void _3XNN(Byte Nibbles[]);
+	void _4XNN(Byte Nibbles[]);
+	void _5XY0(Byte Nibbles[]);
+	void _6XNN(Byte Nibbles[]);
+	void _7XNN(Byte Nibbles[]);
+	void _8XYN(Byte Nibbles[]);
+	void _9XY0(Byte Nibbles[]);
+	void _ANNN(Byte Nibbles[]);
+	void _BNNN(Byte Nibbles[]);
+	void _CXNN(Byte Nibbles[]);
+	void _DXYN(Byte Nibbles[]);
+	void _EXNN(Byte Nibbles[]);
+
 
 public:
+	Memory mem;
+	
 	CPU();
 	~CPU();
 
-	void Process(Display& ActiveDisplay, Memory& ActiveMemory);
-	void Render(Display& ActiveDisplay, SDLI& SDLInterface);
+	void Process(Memory& ActiveMemory);
+	void Render(SDLI& SDLInterface);
 };
 
 typedef enum Instruction_Code
 {
-	x00EN = 0, 
-	x1NNN, 
-	x2NNN, 
-	x3XNN, 
-	x4XNN, 
-	x5XY0, 
+	x00EN = 0,
+	x1NNN,
+	x2NNN,
+	x3XNN,
+	x4XNN,
+	x5XY0,
 	x6XNN,
 	x7XNN,
 	x8XYN,
