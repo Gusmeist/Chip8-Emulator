@@ -1,6 +1,8 @@
 #pragma once
 
 #include <stdio.h>
+#include <fstream>
+#include <vector>
 
 #include "memory.h"
 #include "display.h"
@@ -39,11 +41,11 @@ private:
 	Word I;
 
 	// General variable registrs.
-	Byte V[15] = { 0 };
+	Byte V[16] = { 0 };
 
 	void _00EN(Byte Nibbles[]);
-	void _1NNN(Byte Nibbles[]);
-	void _2NNN(Byte Nibbles[]);
+	void _1NNN(Word Instruction);
+	void _2NNN(Word Instruction);
 	void _3XNN(Byte Nibbles[]);
 	void _4XNN(Byte Nibbles[]);
 	void _5XY0(Byte Nibbles[]);
@@ -51,8 +53,8 @@ private:
 	void _7XNN(Byte Nibbles[]);
 	void _8XYN(Byte Nibbles[]);
 	void _9XY0(Byte Nibbles[]);
-	void _ANNN(Byte Nibbles[]);
-	void _BNNN(Byte Nibbles[]);
+	void _ANNN(Word Instruction);
+	void _BNNN(Word Instruction);
 	void _CXNN(Byte Nibbles[]);
 	void _DXYN(Byte Nibbles[]);
 	void _EXNN(Byte Nibbles[]);
@@ -64,7 +66,9 @@ public:
 	CPU();
 	~CPU();
 
-	void Process(Memory& ActiveMemory);
+	void Load(std::vector<unsigned char> InputBuffer);
+
+	void Process();
 	void Render(SDLI& SDLInterface);
 };
 

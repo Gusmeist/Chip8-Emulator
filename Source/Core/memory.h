@@ -8,7 +8,9 @@ using Word = unsigned short;
 
 struct Memory
 {
-	static const int MEMORY_SIZE = 4 * 1024;
+	const int MEMORY_SIZE = 4 * 1024;
+	const Word INIT_ADDRESS = 0x0200;
+
 	Byte* Data = new Byte[MEMORY_SIZE];
 
 	Stack stack;

@@ -14,6 +14,7 @@
 #include <stdint.h>
 #include <fstream>
 #include <string>
+#include <vector>
 
 #include <SDL.h>
 
@@ -35,7 +36,16 @@ int main(int argc, char* args[])
 
 	std::string filePath;
 	std::ifstream inputFile;
-	Byte loadBuffer;
+
+	std::cout << "Enter file path: " << '\n';
+	std::getline(std::cin, filePath);
+
+	inputFile.open(filePath, std::ios::binary);
+
+	// copies all data into buffer
+	std::vector<unsigned char> buffer(std::istreambuf_iterator<char>(inputFile), {});
+
+	cpu.Load(buffer);
 
 	SDL_Event mainEvent;
 
@@ -60,10 +70,13 @@ int main(int argc, char* args[])
 		case SDL_KEYDOWN:
 			switch (mainEvent.key.keysym.sym)
 			{
-				;
+				case (SDLK_1):
+					std::cout << "yes" << std::endl;
+					break;
 			}
 		}
 
+		cpu.Process();
 		cpu.Render(sdli);
 	}
 
