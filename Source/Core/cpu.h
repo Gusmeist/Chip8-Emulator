@@ -4,6 +4,8 @@
 #include <fstream>
 #include <vector>
 
+#include <unordered_map>
+
 #include "memory.h"
 #include "display.h"
 #include "time_keeper.h"
@@ -62,6 +64,8 @@ private:
 
 public:
 	Memory mem;
+
+	std::unordered_map<char, bool> relevantKeyStates;
 	
 	CPU();
 	~CPU();
