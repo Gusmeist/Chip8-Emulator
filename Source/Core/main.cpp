@@ -9,7 +9,6 @@
 */
 
 #include <stdio.h>
-#include <windows.h>
 #include <iostream>
 #include <stdint.h>
 #include <fstream>
@@ -74,22 +73,22 @@ int main(int argc, char* args[])
 		Z X C V
 		*/
 
-		cpu.relevantKeyStates['1'] = currentKeyStates[SDL_SCANCODE_1];
-		cpu.relevantKeyStates['2'] = currentKeyStates[SDL_SCANCODE_2];
-		cpu.relevantKeyStates['3'] = currentKeyStates[SDL_SCANCODE_3];
-		cpu.relevantKeyStates['C'] = currentKeyStates[SDL_SCANCODE_4];
-		cpu.relevantKeyStates['4'] = currentKeyStates[SDL_SCANCODE_Q];
-		cpu.relevantKeyStates['5'] = currentKeyStates[SDL_SCANCODE_W];
-		cpu.relevantKeyStates['6'] = currentKeyStates[SDL_SCANCODE_E];
-		cpu.relevantKeyStates['D'] = currentKeyStates[SDL_SCANCODE_R];
-		cpu.relevantKeyStates['7'] = currentKeyStates[SDL_SCANCODE_A];
-		cpu.relevantKeyStates['8'] = currentKeyStates[SDL_SCANCODE_S];
-		cpu.relevantKeyStates['9'] = currentKeyStates[SDL_SCANCODE_D];
-		cpu.relevantKeyStates['E'] = currentKeyStates[SDL_SCANCODE_F];
-		cpu.relevantKeyStates['A'] = currentKeyStates[SDL_SCANCODE_Z];
-		cpu.relevantKeyStates['0'] = currentKeyStates[SDL_SCANCODE_X];
-		cpu.relevantKeyStates['B'] = currentKeyStates[SDL_SCANCODE_C];
-		cpu.relevantKeyStates['F'] = currentKeyStates[SDL_SCANCODE_V];
+		cpu.relevantKeyStates[0x1] = currentKeyStates[SDL_SCANCODE_1];
+		cpu.relevantKeyStates[0x2] = currentKeyStates[SDL_SCANCODE_2];
+		cpu.relevantKeyStates[0x3] = currentKeyStates[SDL_SCANCODE_3];
+		cpu.relevantKeyStates[0xC] = currentKeyStates[SDL_SCANCODE_4];
+		cpu.relevantKeyStates[0x4] = currentKeyStates[SDL_SCANCODE_Q];
+		cpu.relevantKeyStates[0x5] = currentKeyStates[SDL_SCANCODE_W];
+		cpu.relevantKeyStates[0x6] = currentKeyStates[SDL_SCANCODE_E];
+		cpu.relevantKeyStates[0xD] = currentKeyStates[SDL_SCANCODE_R];
+		cpu.relevantKeyStates[0x7] = currentKeyStates[SDL_SCANCODE_A];
+		cpu.relevantKeyStates[0x8] = currentKeyStates[SDL_SCANCODE_S];
+		cpu.relevantKeyStates[0x9] = currentKeyStates[SDL_SCANCODE_D];
+		cpu.relevantKeyStates[0xE] = currentKeyStates[SDL_SCANCODE_F];
+		cpu.relevantKeyStates[0xA] = currentKeyStates[SDL_SCANCODE_Z];
+		cpu.relevantKeyStates[0x0] = currentKeyStates[SDL_SCANCODE_X];
+		cpu.relevantKeyStates[0xB] = currentKeyStates[SDL_SCANCODE_C];
+		cpu.relevantKeyStates[0xF] = currentKeyStates[SDL_SCANCODE_V];
 		
 		// Input logic
 		SDL_PollEvent(&mainEvent);

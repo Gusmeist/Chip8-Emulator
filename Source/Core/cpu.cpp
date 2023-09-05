@@ -192,7 +192,10 @@ void CPU::_DXYN(Byte n[])
 
 void CPU::_EXNN(Byte n[])
 {
-	
+	if (n[3] == 1 && relevantKeyStates[V[n[1]]])
+		PC += 2;
+	else if (!relevantKeyStates[V[n[1]]])
+		PC += 2;
 }
 
 void CPU::Load(std::vector<unsigned char> buffer)

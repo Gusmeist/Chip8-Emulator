@@ -4,8 +4,6 @@
 #include <fstream>
 #include <vector>
 
-#include <unordered_map>
-
 #include "memory.h"
 #include "display.h"
 #include "time_keeper.h"
@@ -15,6 +13,25 @@
 using Byte = unsigned char;
 using Word = unsigned short;
 
+typedef enum Instruction_Code
+{
+	x00EN = 0,
+	x1NNN,
+	x2NNN,
+	x3XNN,
+	x4XNN,
+	x5XY0,
+	x6XNN,
+	x7XNN,
+	x8XYN,
+	x9XY0,
+	xANNN,
+	xBNNN,
+	xCXNN,
+	xDXYN,
+	xEXNN,
+	xFXNN
+} ins;
 
 struct CPU
 {
@@ -60,12 +77,12 @@ private:
 	void _CXNN(Byte Nibbles[]);
 	void _DXYN(Byte Nibbles[]);
 	void _EXNN(Byte Nibbles[]);
-
+	void _FXNN(Byte Nibbles[]);
 
 public:
 	Memory mem;
 
-	std::unordered_map<char, bool> relevantKeyStates;
+	bool relevantKeyStates[16] = { false };
 	
 	CPU();
 	~CPU();
@@ -75,22 +92,3 @@ public:
 	void Process();
 	void Render(SDLI& SDLInterface);
 };
-
-typedef enum Instruction_Code
-{
-	x00EN = 0,
-	x1NNN,
-	x2NNN,
-	x3XNN,
-	x4XNN,
-	x5XY0,
-	x6XNN,
-	x7XNN,
-	x8XYN,
-	x9XY0,
-	xANNN,
-	xBNNN,
-	xCXNN,
-	xDXYN,
-	xEXNN
-} ins;
