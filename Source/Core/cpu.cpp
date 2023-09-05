@@ -200,7 +200,7 @@ void CPU::_EXNN(Byte n[])
 
 void CPU::_FXNN(Byte n[])
 {
-
+	
 }
 
 void CPU::Load(std::vector<unsigned char> buffer)
