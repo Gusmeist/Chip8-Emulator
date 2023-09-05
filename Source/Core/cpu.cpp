@@ -198,6 +198,11 @@ void CPU::_EXNN(Byte n[])
 		PC += 2;
 }
 
+void CPU::_FXNN(Byte n[])
+{
+
+}
+
 void CPU::Load(std::vector<unsigned char> buffer)
 {
 	Word currentAddress = mem.INIT_ADDRESS;
@@ -283,6 +288,9 @@ void CPU::Process()
 
 		case ins::xEXNN:
 			_EXNN(nibble);
+			break;
+		case ins::xFXNN:
+			_FXNN(nibble);
 			break;
 
 		default:
