@@ -48,8 +48,6 @@ void CPU::_00EN(Byte n[])
 void CPU::_1NNN(Word b)
 {
 	PC = b & 0x0FFF;
-	// V
-	PC += 2;
 }
 
 void CPU::_2NNN(Word b)
@@ -62,7 +60,7 @@ void CPU::_3XNN(Byte n[])
 {
 	Byte val = (n[2] << 4) | n[3];
 	if (val == V[n[1]])
-		PC +=2;
+		PC += 2;
 }
 
 void CPU::_4XNN(Byte n[])
