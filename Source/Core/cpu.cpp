@@ -12,6 +12,9 @@ CPU::CPU()
 	PC = mem.INIT_ADDRESS;
 
 	I = 0;
+
+	//debug
+	steppingMode = false;
 }
 
 CPU::~CPU()
@@ -167,7 +170,7 @@ void CPU::_BNNN(Word b)
 
 void CPU::_CXNN(Byte n[])
 {
-	V[n[1]] = (rand() % 0xFF) & ((n[2] << 4) | n[3]);
+	V[n[1]] = (Byte)(rand() % 0xFF) & ((n[2] << 4) | n[3]);
 }
 
 void CPU::_DXYN(Byte n[])
@@ -187,7 +190,7 @@ void CPU::_DXYN(Byte n[])
 		for (int j = 0; j < 8; j++)
 		{
 			bool spriteBit = (spriteByte & (0b10000000 >> j));
-			if(spriteBit)
+			if(spriteBit && disp.ScreenBuffer[X][Y])
 				V[0xF] = 0b1;
 			disp.ScreenBuffer[X][Y] = disp.ScreenBuffer[X][Y] ^ spriteBit;
 			X++;
@@ -282,12 +285,28 @@ void CPU::Load(std::vector<unsigned char>& buffer)
 	}
 }
 
-void CPU::Process()
+bool CPU::Process()
 {
+	if (steppingMode)
+	{
+		printf("\nINS  I       V0   V1   V2   V3   V4   V5   V6   V7   V8   V9   VA   VB   VC   VD   VE   VF   PC\n");
+	}
 	while (currentInstructionCount > 0)
 	{
 		Word currentInstruction = (Word)(mem.Data[PC]) << 8;
 		currentInstruction |= (Word)(mem.Data[PC + 1]);
+
+		if (steppingMode)
+		{
+			printf("%-5x", currentInstruction);
+			printf("%-5x   ", I);
+			for (int i = 0; i < 16; i++)
+			{
+				printf("%-5x", V[i]);
+			}
+			printf("    %-5x\n", PC);
+		}
+
 		PC += 2;
 
 		Byte nibble[4] = { 0 };
@@ -366,8 +385,22 @@ void CPU::Process()
 			printf("Instruction unknown.");
 		}
 
+
+		while (steppingMode)
+		{
+			SDL_Event e;
+			SDL_PollEvent(&e);
+
+			if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_UP)
+				break;
+			else if (e.type == SDL_QUIT)
+				return false;
+		}
+
 		currentInstructionCount--;
 	}
+
+	return true;
 }
 
 void CPU::Render(SDLI& sdli)

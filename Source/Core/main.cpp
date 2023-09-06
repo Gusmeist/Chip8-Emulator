@@ -40,7 +40,7 @@ int main(int argc, char* args[])
 	//std::cout << "Enter file path: " << '\n';
 	//std::getline(std::cin, filePath);e
 	{
-		std::string debugRom = "C:\\Users\\knowl\\Downloads\\Breakout.ch8";
+		std::string debugRom = "C:\\Users\\knowl\\Downloads\\Tetris.ch8";
 		filePath = debugRom;
 	}
 	
@@ -52,9 +52,13 @@ int main(int argc, char* args[])
 
 	cpu.Load(buffer);
 
+	cpu.steppingMode = false;
+
 	SDL_Event mainEvent;
 
 	TimeKeeper frameCounter;
+
+	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 
 	// // // // // // // // // // //
 	// Main loop for application  //
@@ -62,9 +66,6 @@ int main(int argc, char* args[])
 	
 	while(isRunning)
 	{
-
-		const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-
 		/*
 		Original Keyboard Layout -
 
@@ -80,7 +81,6 @@ int main(int argc, char* args[])
 		A S D F
 		Z X C V
 		*/
-
 		cpu.relevantKeyStates[0x1] = currentKeyStates[SDL_SCANCODE_1];
 		cpu.relevantKeyStates[0x2] = currentKeyStates[SDL_SCANCODE_2];
 		cpu.relevantKeyStates[0x3] = currentKeyStates[SDL_SCANCODE_3];
@@ -98,6 +98,9 @@ int main(int argc, char* args[])
 		cpu.relevantKeyStates[0xB] = currentKeyStates[SDL_SCANCODE_C];
 		cpu.relevantKeyStates[0xF] = currentKeyStates[SDL_SCANCODE_V];
 		
+		isRunning = cpu.Process();
+		cpu.Render(sdli);
+
 		// Input logic
 		SDL_PollEvent(&mainEvent);
 
@@ -111,15 +114,9 @@ int main(int argc, char* args[])
 		case SDL_QUIT:
 			isRunning = false;
 			break;
-
-		case SDL_KEYDOWN:
-			for (int i = 0; i < 15; i++)
-			{
-
-			}
 		}
-		cpu.Process();
-		cpu.Render(sdli);
+
+		
 	}
 
 	// Closing operations

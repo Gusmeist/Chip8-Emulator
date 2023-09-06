@@ -82,13 +82,17 @@ private:
 public:
 	Memory mem;
 
-	bool relevantKeyStates[16] = { false };
+	bool relevantKeyStates[17] = { false };
 	
 	CPU();
 	~CPU();
 
 	void Load(std::vector<unsigned char>& InputBuffer);
 
-	void Process();
+	bool Process();
 	void Render(SDLI& SDLInterface);
+
+// Debug stuff
+public:
+	bool steppingMode;
 };
