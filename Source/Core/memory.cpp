@@ -40,12 +40,12 @@ void Memory::Reset()
 	};
 
 	// Loads the font into the memory, starting at address 0x0050
-	for (Word c = 0x0050; c <= 0x009F; c++)
+	for (Word c = FONT_ADDRESS; c <= FONT_ADDRESS + (5 * 16); c++)
 	{
 		// Subtracts 0x0050 to count both arrays with the same variable.
 		// 0x0050 is the offset from address 0 that the font data will start on,
 		// so this corrects for that offset.
-		Data[c] = fontData[c - 0x0050];
+		Data[c] = fontData[c - FONT_ADDRESS];
 	}
 
 	stack.Reset();

@@ -23,7 +23,8 @@ void CPU::_00EN(Byte n[])
 {
 	// If the last nibble of the instruction, the command is meant to
 	// clear the screen by setting all values to 0.
-	if(n[3] == 0)
+	Byte nibbles = (n[2] << 4) | n[3];
+	if (nibbles == 0xE0)
 	{ 
 		for (int i = 0; i < SCREEN_PIXEL_WIDTH; i++)
 		{
@@ -34,16 +35,21 @@ void CPU::_00EN(Byte n[])
 		}
 		return;
 	}
-
-	// Otherwise if the last nibble is not 0, it will set the PC to the top
-	// item in the stack.
-
-	PC = mem.stack.Pop();
+	else if (nibbles == 0xEE)
+	{
+		PC = mem.stack.Pop();
+	}
+	else
+	{
+		printf("Machine code routine");
+	}
 }
 
 void CPU::_1NNN(Word b)
 {
 	PC = b & 0x0FFF;
+	// V
+	PC += 2;
 }
 
 void CPU::_2NNN(Word b)
@@ -110,31 +116,37 @@ void CPU::_8XYN(Byte n[])
 
 		case 0x4:
 			tmpResult = V[X] + V[Y];
+			V[X] += V[Y];
 			if (tmpResult > 0xFF)
 				V[0xF] = 0x1;
-			V[X] += V[Y];
+			else
+				V[0xF] = 0x0;
 			break;
 
 		case 0x5:
+			tmpResult = (V[X] > V[Y]);
 			V[X] -= V[Y];
-			V[0xF] = (V[X] > V[Y]);
+			V[0xF] = tmpResult;
 			break;
 
 		case 0x6:
 			// optional V[X] = V[Y];
-			V[0xF] = V[X] & 0b00000001;
+			tmpResult = V[X] & 0b00000001;
 			V[X] >>= 1;
+			V[0xF] = tmpResult;
 			break;
 
 		case 0x7:
-			V[Y] -= V[X];
-			V[0xF] = (V[Y] > V[X]);
+			tmpResult = (V[Y] > V[X]);
+			V[X] = V[Y] - V[X];
+			V[0xF] = tmpResult;
 			break;
 
 		case 0xE:
 			// optional V[X] = V[Y];
-			V[0xF] = V[X] & 0b10000000;
+			tmpResult = (V[X] & 0b10000000) >> 7;
 			V[X] <<= 1;
+			V[0xF] = tmpResult;
 			break;
 	}
 }
@@ -152,12 +164,12 @@ void CPU::_ANNN(Word b)
 
 void CPU::_BNNN(Word b)
 {
-	PC = V[0x0] + (b & 0x0FFF);
+	PC = (Word)V[0x0] + (b & 0x0FFF);
 }
 
 void CPU::_CXNN(Byte n[])
 {
-	V[n[1]] = (rand() % 0xFF) & ((n[3] << 4) | n[4]);
+	V[n[1]] = (rand() % 0xFF) & ((n[2] << 4) | n[3]);
 }
 
 void CPU::_DXYN(Byte n[])
@@ -192,18 +204,77 @@ void CPU::_DXYN(Byte n[])
 
 void CPU::_EXNN(Byte n[])
 {
-	if (n[3] == 1 && relevantKeyStates[V[n[1]]])
+	if (n[3] == 0xE && relevantKeyStates[V[n[1]]])
 		PC += 2;
-	else if (!relevantKeyStates[V[n[1]]])
+	else if (n[3] == 0x1 && !relevantKeyStates[V[n[1]]])
 		PC += 2;
 }
 
 void CPU::_FXNN(Byte n[])
 {
+	Byte lowerByte = (n[2] << 4) | n[3];
+	Byte X = n[1];
+
+	switch (lowerByte)
+	{
+	case 0x07:
+		V[X] = delayTimer;
+		break;
+
+	case 0x0A:
+		for (int i = 0; i < 15; i++)
+		{
+			if (relevantKeyStates[i])
+			{
+				return;
+			}
+		}
+		PC -= 2;
+		break;
+
+	case 0x15:
+		delayTimer = V[X];
+		break;
+
+	case 0x18:
+		soundTimer = V[X];
+		break;
+
+	case 0x1E:
+		I += V[X];
+		if (I > 0x0FFF)
+			V[0xF] = 1;
+		else
+			V[0xF] = 0;
+		break;
+
+	case 0x29:
+		I = mem.FONT_ADDRESS + (5 * V[X]);
+		break;
+
+	case 0x33:
+		mem.Data[I] = (int)V[X] / 100;
+		mem.Data[I + 1] = ((int)V[X] / 10) % 10;
+		mem.Data[I + 2] = (int)V[X] % 10;
+		break;
+
+	case 0x55:
+		for (int i = 0; i <= X; i++)
+		{
+			mem.Data[I + i] = V[i];
+		}
+		break;
 	
+	case 0x65:
+		for (int i = 0; i <= X; i++)
+		{
+			V[i] = mem.Data[I + i];
+		}
+		break;
+	}
 }
 
-void CPU::Load(std::vector<unsigned char> buffer)
+void CPU::Load(std::vector<unsigned char>& buffer)
 {
 	Word currentAddress = mem.INIT_ADDRESS;
 	for (int i = 0; i < buffer.size(); i++)
@@ -220,7 +291,7 @@ void CPU::Process()
 		Word currentInstruction = (Word)(mem.Data[PC]) << 8;
 		currentInstruction |= (Word)(mem.Data[PC + 1]);
 		PC += 2;
-		
+
 		Byte nibble[4] = { 0 };
 
 		nibble[0] = (currentInstruction & 0xF000) >> 12;
@@ -304,7 +375,7 @@ void CPU::Process()
 void CPU::Render(SDLI& sdli)
 {
 	while (timeKeeper.GetTime() < MILLISECONDS_PER_FRAME);
-
+	
 	if (delayTimer > 0)
 		delayTimer--;
 	if (soundTimer > 0)

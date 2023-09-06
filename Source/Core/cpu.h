@@ -87,7 +87,7 @@ public:
 	CPU();
 	~CPU();
 
-	void Load(std::vector<unsigned char> InputBuffer);
+	void Load(std::vector<unsigned char>& InputBuffer);
 
 	void Process();
 	void Render(SDLI& SDLInterface);

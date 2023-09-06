@@ -37,8 +37,13 @@ int main(int argc, char* args[])
 	std::string filePath;
 	std::ifstream inputFile;
 
-	std::cout << "Enter file path: " << '\n';
-	std::getline(std::cin, filePath);
+	//std::cout << "Enter file path: " << '\n';
+	//std::getline(std::cin, filePath);e
+	{
+		std::string debugRom = "C:\\Users\\knowl\\Downloads\\Breakout.ch8";
+		filePath = debugRom;
+	}
+	
 
 	inputFile.open(filePath, std::ios::binary);
 
@@ -48,8 +53,8 @@ int main(int argc, char* args[])
 	cpu.Load(buffer);
 
 	SDL_Event mainEvent;
-	
-	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+
+	TimeKeeper frameCounter;
 
 	// // // // // // // // // // //
 	// Main loop for application  //
@@ -57,6 +62,9 @@ int main(int argc, char* args[])
 	
 	while(isRunning)
 	{
+
+		const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+
 		/*
 		Original Keyboard Layout -
 
@@ -103,15 +111,13 @@ int main(int argc, char* args[])
 		case SDL_QUIT:
 			isRunning = false;
 			break;
+
 		case SDL_KEYDOWN:
-			switch (mainEvent.key.keysym.sym)
+			for (int i = 0; i < 15; i++)
 			{
-				case (SDLK_1):
-					std::cout << "yes" << std::endl;
-					break;
+
 			}
 		}
-
 		cpu.Process();
 		cpu.Render(sdli);
 	}
