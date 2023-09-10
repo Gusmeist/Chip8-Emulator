@@ -2,8 +2,13 @@
 
 bool SDLI::init()
 {
+	ScreenHeight = INIT_SCREEN_HEIGHT;
+	ScreenWidth = INIT_SCREEN_WIDTH;
+	VWindowBorder = INIT_V_WINDOW_BORDER;
+	HWindowBorder = INIT_H_WINDOW_BORDER;
+
 	mainWindow = SDL_CreateWindow("Chip8Emu", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-		INIT_SCREEN_WIDTH, INIT_SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+		ScreenWidth + HWindowBorder * 2, ScreenHeight + VWindowBorder * 2, SDL_WINDOW_SHOWN);
 
 	if (mainWindow == NULL)
 	{
