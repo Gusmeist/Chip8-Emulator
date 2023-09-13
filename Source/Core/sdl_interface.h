@@ -13,10 +13,10 @@ struct SDLI
 	SDL_Window* mainWindow = NULL;		// Current window.
 	SDL_Renderer* mainRenderer = NULL;	// Current renderer.
 
-	int ScreenWidth;					// Custom vars for screen dimensions after resizing.
-	int ScreenHeight;
-	int VWindowBorder;
-	int HWindowBorder;
+	int ScreenHeight = INIT_SCREEN_HEIGHT;		// Varaibles for the screen height and the border around the chip8 display.
+	int ScreenWidth = INIT_SCREEN_WIDTH;
+	int VWindowBorder = INIT_V_WINDOW_BORDER;
+	int HWindowBorder = INIT_H_WINDOW_BORDER;
 
 	bool init();						// Initialize SDL and related things.
 	void close();						// Delete SDL pointers and close everything.

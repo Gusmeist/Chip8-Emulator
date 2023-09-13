@@ -88,6 +88,8 @@ public:
 	bool Process();										// Called each time an instruction should be called, which decodes and exectues the next instruction.
 	void Render(SDLI& SDLInterface);					// Called each frame, which decrements the timers and calls a display method.
 
+	void Reset();
+
 public:
 	bool steppingMode;					// Flags for special debugging modes.
 };

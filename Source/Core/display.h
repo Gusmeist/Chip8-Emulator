@@ -21,5 +21,7 @@ public:
 	~Display();
 
 	void DrawBuffer(SDLI& SDLInterface);									// Draws the buffer to the screen.
+
+	void Reset();
 };
 

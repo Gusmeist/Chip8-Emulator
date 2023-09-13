@@ -2,13 +2,26 @@
 
 CPU::CPU()
 {
+	Reset();
+}
+
+CPU::~CPU()
+{
+	// Does nothing.
+}
+
+void CPU::Reset()
+{
+	// Resets components.
+	mem.Reset();
+	timeKeeper.Restart();
+	disp.Reset();
+
 	// Initialize primitive variables to 0, the currentInstructionCount (Which
 	// keeps track of the amount of instructions to process in the current frame)
 	// to the INSTRUCTIONS_PER_FRAME, sets PC to the initial address, and I to 0.
 	delayTimer = 0;
 	soundTimer = 0;
-
-	timeKeeper.Restart();
 
 	currentInstructionCount = INSTRUCTIONS_PER_FRAME;
 
@@ -21,11 +34,6 @@ CPU::CPU()
 
 	// Set the random seed (It could be better).
 	srand(SDL_GetTicks());
-}
-
-CPU::~CPU()
-{
-	// Does nothing.
 }
 
 void CPU::_00EN(Byte n[])

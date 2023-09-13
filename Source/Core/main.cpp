@@ -13,6 +13,7 @@
 #include <stdint.h>
 #include <fstream>
 #include <string>
+#include <cstring>
 
 #include <vector>
 
@@ -38,13 +39,10 @@ int main(int argc, char* args[])
 	std::string filePath;
 	std::ifstream inputFile;
 
-	//std::cout << "Enter file path: " << '\n';
-	//std::getline(std::cin, filePath);e
-	{
-		std::string debugRom = "C:\\Users\\knowl\\Downloads\\Tetris.ch8";
-		filePath = debugRom;
-	}
-	
+	std::cout << "\nEnter file name with the extension (Path assumes file is in the roms directory) - ";
+	std::getline(std::cin, filePath);
+	filePath = "roms\\" + filePath;
+
 	// Load current file given to program.
 	inputFile.open(filePath, std::ios::binary);
 
@@ -61,6 +59,7 @@ int main(int argc, char* args[])
 
 	// Tracks if the program is still running.
 	bool isRunning = true;
+	bool isPaused = false;
 
 	// The main event for the program, tracks if the application closed or resized.
 	SDL_Event mainEvent;
@@ -104,8 +103,17 @@ int main(int argc, char* args[])
 		cpu.relevantKeyStates[0xB] = currentKeyStates[SDL_SCANCODE_C];
 		cpu.relevantKeyStates[0xF] = currentKeyStates[SDL_SCANCODE_V];
 		
-		isRunning = cpu.Process();
-		cpu.Render(sdli);
+		if (!isPaused)
+		{
+			// Runs when the program isn't paused.
+			isRunning = cpu.Process();
+			cpu.Render(sdli);
+		}
+		else
+		{
+			// Runs when the program is paused (Console commands).
+			
+		}
 
 		// Input logic
 		while (SDL_PollEvent(&mainEvent))
@@ -120,6 +128,10 @@ int main(int argc, char* args[])
 			case SDL_QUIT:
 				isRunning = false;
 				break;
+
+			case SDL_KEYDOWN:
+				if (mainEvent.key.keysym.sym == SDLK_ESCAPE)
+					isPaused = !isPaused;
 			}
 		}
 	}

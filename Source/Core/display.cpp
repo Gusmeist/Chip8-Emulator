@@ -22,6 +22,17 @@ Display::~Display()
 {
 }
 
+void Display::Reset()
+{
+	for (int i = 0; i < SCREEN_PIXEL_WIDTH; i++)
+	{
+		for (int j = 0; j < SCREEN_PIXEL_HEIGHT; j++)
+		{
+			ScreenBuffer[i][j] = 0;
+		}
+	}
+}
+
 void Display::DrawBuffer(SDLI& sdli)
 {
 	SDL_SetRenderDrawColor(sdli.mainRenderer, 0x20, 0x20, 0x20, 0xFF);	// Draws color of entire screen.
