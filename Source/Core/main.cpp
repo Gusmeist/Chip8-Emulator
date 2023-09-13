@@ -26,14 +26,15 @@
 
 int main(int argc, char* args[])
 {
-	SDLI sdli;
 	// SDL Initialization and setup
+	SDLI sdli;
 	if (!sdli.init()) 
 		return -1;
 	
+	// The CPU for the program.
 	CPU cpu;
-	bool isRunning = true;
 
+	// Variables for loading the file.
 	std::string filePath;
 	std::ifstream inputFile;
 
@@ -44,43 +45,48 @@ int main(int argc, char* args[])
 		filePath = debugRom;
 	}
 	
-
+	// Load current file given to program.
 	inputFile.open(filePath, std::ios::binary);
 
-	// copies all data into buffer
+	// Copies all data into buffer, loads into memory.
 	std::vector<unsigned char> buffer(std::istreambuf_iterator<char>(inputFile), {});
-
 	cpu.Load(buffer);
 
-	cpu.steppingMode = false;
-
-	SDL_Event mainEvent;
-
-	TimeKeeper frameCounter;
-
-	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+	// Debug conditions
+	cpu.steppingMode = false;	// Stops after each instruction, press key up to proceed to next instruction.
 
 	// // // // // // // // // // //
 	// Main loop for application  //
 	// // // // // // // // // // //
+
+	// Tracks if the program is still running.
+	bool isRunning = true;
+
+	// The main event for the program, tracks if the application closed or resized.
+	SDL_Event mainEvent;
+
+	// Pointer to the keyboard states, later used to store the keyboard state into the program.
+	const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
 	
 	while(isRunning)
 	{
 		/*
-		Original Keyboard Layout -
+			Original Keyboard Layout -
 
-		1 2 3 C
-		4 5 6 D
-		7 8 9 E
-		A 0 B F
+			1 2 3 C
+			4 5 6 D
+			7 8 9 E
+			A 0 B F
 
-		Mapped Modern Keyboard Layout -
+			Mapped Modern Keyboard Layout -
 
-		1 2 3 4
-		Q W E R
-		A S D F
-		Z X C V
+			1 2 3 4
+			Q W E R
+			A S D F
+			Z X C V
 		*/
+
+		// Sets each number of the chip8 keyboard state to the state of the emulated keyboard state of the physical keyboard.
 		cpu.relevantKeyStates[0x1] = currentKeyStates[SDL_SCANCODE_1];
 		cpu.relevantKeyStates[0x2] = currentKeyStates[SDL_SCANCODE_2];
 		cpu.relevantKeyStates[0x3] = currentKeyStates[SDL_SCANCODE_3];
@@ -102,21 +108,20 @@ int main(int argc, char* args[])
 		cpu.Render(sdli);
 
 		// Input logic
-		SDL_PollEvent(&mainEvent);
-
-		switch (mainEvent.type)
+		while (SDL_PollEvent(&mainEvent))
 		{
-		case SDL_WINDOWEVENT_CLOSE:
-			mainEvent.type = SDL_QUIT;
-			SDL_PushEvent(&mainEvent);
-			break;
+			switch (mainEvent.type)
+			{
+			case SDL_WINDOWEVENT_CLOSE:
+				mainEvent.type = SDL_QUIT;
+				SDL_PushEvent(&mainEvent);
+				break;
 
-		case SDL_QUIT:
-			isRunning = false;
-			break;
+			case SDL_QUIT:
+				isRunning = false;
+				break;
+			}
 		}
-
-		
 	}
 
 	// Closing operations

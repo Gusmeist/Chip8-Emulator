@@ -2,6 +2,9 @@
 
 CPU::CPU()
 {
+	// Initialize primitive variables to 0, the currentInstructionCount (Which
+	// keeps track of the amount of instructions to process in the current frame)
+	// to the INSTRUCTIONS_PER_FRAME, sets PC to the initial address, and I to 0.
 	delayTimer = 0;
 	soundTimer = 0;
 
@@ -13,13 +16,16 @@ CPU::CPU()
 
 	I = 0;
 
-	//debug
-	steppingMode = false;
+	// Debug flags.
+	steppingMode = false;		// Will stop after each instruction, and after pressing up on the keyboard it will proceed to the next instruction.
+
+	// Set the random seed (It could be better).
+	srand(SDL_GetTicks());
 }
 
 CPU::~CPU()
 {
-
+	// Does nothing.
 }
 
 void CPU::_00EN(Byte n[])
@@ -48,6 +54,7 @@ void CPU::_00EN(Byte n[])
 	}
 }
 
+// For most of these, the instruction is pretty simple, so if you want a description go to cpu.h.
 void CPU::_1NNN(Word b)
 {
 	PC = b & 0x0FFF;
@@ -175,18 +182,25 @@ void CPU::_CXNN(Byte n[])
 
 void CPU::_DXYN(Byte n[])
 {
+	// The y position is the third nibble modulus with the screen pixel height.
 	Byte Y = V[n[2]] % SCREEN_PIXEL_HEIGHT;
 	
+	// The amount of rows in the sprite.
 	Byte rows = n[3];
 
+	// Sets the overflow flag to 0.
 	V[0xF] = 0b0;
 
+	// Iterate through each row, where each row is 1 byte of data.
 	for (int i = 0; i < rows; i++)
 	{
 		Byte spriteByte = mem.Data[I + i];
 
+		// The x position is the third nibble modulus with the screen pixel width.
 		Byte X = V[n[1]] % SCREEN_PIXEL_WIDTH;
 
+		// Sets each location on the screen buffer to the XOR of the current screen state and the data in the spriteBit.  If the sprite
+		// ever flips a current pixel off, then it will set V[F] to 1.  Otherwise V[F] will be 0.
 		for (int j = 0; j < 8; j++)
 		{
 			bool spriteBit = (spriteByte & (0b10000000 >> j));
@@ -194,10 +208,12 @@ void CPU::_DXYN(Byte n[])
 				V[0xF] = 0b1;
 			disp.ScreenBuffer[X][Y] = disp.ScreenBuffer[X][Y] ^ spriteBit;
 			X++;
+			// Breaks if it reaches the right border of the screen.
 			if(X == SCREEN_PIXEL_WIDTH)
 				break;
 		}
 		Y++;
+		// Breaks if it reaches the bottom border of the screen.
 		if(Y == SCREEN_PIXEL_HEIGHT)
 			break;
 	}
@@ -277,6 +293,7 @@ void CPU::_FXNN(Byte n[])
 
 void CPU::Load(std::vector<unsigned char>& buffer)
 {
+	// Loads a uchar vector into memory starting at the initial memory address.
 	Word currentAddress = mem.INIT_ADDRESS;
 	for (int i = 0; i < buffer.size(); i++)
 	{
@@ -287,25 +304,17 @@ void CPU::Load(std::vector<unsigned char>& buffer)
 
 bool CPU::Process()
 {
+	// Settping mode display
 	if (steppingMode)
 	{
 		printf("\nINS  I       V0   V1   V2   V3   V4   V5   V6   V7   V8   V9   VA   VB   VC   VD   VE   VF   PC\n");
 	}
+
+	// While there are still instructions to process in a frame, do the whole decode execute loop.
 	while (currentInstructionCount > 0)
 	{
 		Word currentInstruction = (Word)(mem.Data[PC]) << 8;
 		currentInstruction |= (Word)(mem.Data[PC + 1]);
-
-		if (steppingMode)
-		{
-			printf("%-5x", currentInstruction);
-			printf("%-5x   ", I);
-			for (int i = 0; i < 16; i++)
-			{
-				printf("%-5x", V[i]);
-			}
-			printf("    %-5x\n", PC);
-		}
 
 		PC += 2;
 
@@ -385,6 +394,17 @@ bool CPU::Process()
 			printf("Instruction unknown.");
 		}
 
+		// Stepping mode display
+		if (steppingMode)
+		{
+			printf("%-5x", currentInstruction);
+			printf("%-5x   ", I);
+			for (int i = 0; i < 16; i++)
+			{
+				printf("%-5x", V[i]);
+			}
+			printf("    %-5x\n", PC);
+		}
 
 		while (steppingMode)
 		{
