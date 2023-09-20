@@ -51,7 +51,7 @@ int main(int argc, char* args[])
 	cpu.Load(buffer);
 
 	// Debug conditions
-	cpu.steppingMode = false;	// Stops after each instruction, press key up to proceed to next instruction.
+	cpu.stepping_mode = false;	// Stops after each instruction, press key up to proceed to next instruction.
 
 	// // // // // // // // // // //
 	// Main loop for application  //
@@ -132,6 +132,11 @@ int main(int argc, char* args[])
 			case SDL_KEYDOWN:
 				if (mainEvent.key.keysym.sym == SDLK_ESCAPE)
 					isPaused = !isPaused;
+				break;
+			
+			case SDL_WINDOWEVENT_RESIZED:
+				SDL_GetRendererOutputSize
+				break;
 			}
 		}
 	}

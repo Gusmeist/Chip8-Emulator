@@ -22,6 +22,11 @@ Display::~Display()
 {
 }
 
+void Display::Update()
+{
+
+}
+
 void Display::Reset()
 {
 	for (int i = 0; i < SCREEN_PIXEL_WIDTH; i++)

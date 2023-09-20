@@ -84,12 +84,13 @@ public:
 	~CPU();
 
 	void Load(std::vector<unsigned char>& InputBuffer);	// Load a vector that contains binary information from a file.
-
 	bool Process();										// Called each time an instruction should be called, which decodes and exectues the next instruction.
 	void Render(SDLI& SDLInterface);					// Called each frame, which decrements the timers and calls a display method.
+
+	void UpdateDisplayParams();
 
 	void Reset();
 
 public:
-	bool steppingMode;					// Flags for special debugging modes.
+	bool stepping_mode;					// Flags for special debugging modes.
 };
