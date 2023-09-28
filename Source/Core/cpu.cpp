@@ -30,10 +30,15 @@ void CPU::Reset()
 	I = 0;
 
 	// Debug flags.
-	steppingMode = false;		// Will stop after each instruction, and after pressing up on the keyboard it will proceed to the next instruction.
+	stepping_mode = false;		// Will stop after each instruction, and after pressing up on the keyboard it will proceed to the next instruction.
 
 	// Set the random seed (It could be better).
 	srand(SDL_GetTicks());
+}
+
+void CPU::UpdateDisplayParams()
+{
+
 }
 
 void CPU::_00EN(Byte n[])
@@ -110,7 +115,7 @@ void CPU::_8XYN(Byte n[])
 {
 	Byte X = n[1];
 	Byte Y = n[2];
-	Word tmpResult;
+	Byte tmpResult;
 
 	switch (n[3])
 	{
@@ -313,7 +318,7 @@ void CPU::Load(std::vector<unsigned char>& buffer)
 bool CPU::Process()
 {
 	// Settping mode display
-	if (steppingMode)
+	if (stepping_mode)
 	{
 		printf("\nINS  I       V0   V1   V2   V3   V4   V5   V6   V7   V8   V9   VA   VB   VC   VD   VE   VF   PC\n");
 	}
@@ -403,7 +408,7 @@ bool CPU::Process()
 		}
 
 		// Stepping mode display
-		if (steppingMode)
+		if (stepping_mode)
 		{
 			printf("%-5x", currentInstruction);
 			printf("%-5x   ", I);
@@ -414,7 +419,7 @@ bool CPU::Process()
 			printf("    %-5x\n", PC);
 		}
 
-		while (steppingMode)
+		while (stepping_mode)
 		{
 			SDL_Event e;
 			SDL_PollEvent(&e);

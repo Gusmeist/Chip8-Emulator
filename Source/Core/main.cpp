@@ -51,7 +51,7 @@ int main(int argc, char* args[])
 	cpu.Load(buffer);
 
 	// Debug conditions
-	cpu.steppingMode = false;	// Stops after each instruction, press key up to proceed to next instruction.
+	cpu.stepping_mode = false;	// Stops after each instruction, press key up to proceed to next instruction.
 
 	// // // // // // // // // // //
 	// Main loop for application  //
