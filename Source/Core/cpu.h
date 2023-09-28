@@ -87,7 +87,8 @@ public:
 
 	bool Process();										// Called each time an instruction should be called, which decodes and exectues the next instruction.
 	void Render(SDLI& SDLInterface);					// Called each frame, which decrements the timers and calls a display method.
-
+	void RenderNoTimers(SDLI& SDLInterface);			// Called each frame, displays the screen and doesn't decrement the timer variables.
+	
 	void Reset();
 
 public:

@@ -112,9 +112,9 @@ int main(int argc, char* args[])
 		else
 		{
 			// Runs when the program is paused (Console commands).
-			
+			cpu.RenderNoTimers(sdli);
 		}
-
+		
 		// Input logic
 		while (SDL_PollEvent(&mainEvent))
 		{
@@ -130,8 +130,17 @@ int main(int argc, char* args[])
 				break;
 
 			case SDL_KEYDOWN:
-				if (mainEvent.key.keysym.sym == SDLK_ESCAPE)
-					isPaused = !isPaused;
+				switch (mainEvent.key.keysym.sym)
+				{
+					case SDLK_ESCAPE:
+						isPaused = !isPaused;
+						break;
+					case SDLK_0:
+						cpu.steppingMode = !cpu.steppingMode;
+						break;
+
+				}
+				break;
 			}
 		}
 	}

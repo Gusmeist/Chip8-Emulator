@@ -80,8 +80,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Coding Development\vsdev\SDL2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Coding Development\vsdev\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Coding Development\vsdev\SDL2_ttf\include;C:\Coding Development\vsdev\SDL2\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Coding Development\vsdev\SDL2_ttf\lib\x64;C:\Coding Development\vsdev\SDL2\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

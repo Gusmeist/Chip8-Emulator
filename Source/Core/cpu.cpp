@@ -142,27 +142,27 @@ void CPU::_8XYN(Byte n[])
 		case 0x5:
 			tmpResult = (V[X] > V[Y]);
 			V[X] -= V[Y];
-			V[0xF] = tmpResult;
+			V[0xF] = (Byte)tmpResult;
 			break;
 
 		case 0x6:
 			// optional V[X] = V[Y];
 			tmpResult = V[X] & 0b00000001;
 			V[X] >>= 1;
-			V[0xF] = tmpResult;
+			V[0xF] = (Byte)tmpResult;
 			break;
 
 		case 0x7:
 			tmpResult = (V[Y] > V[X]);
 			V[X] = V[Y] - V[X];
-			V[0xF] = tmpResult;
+			V[0xF] = (Byte)tmpResult;
 			break;
 
 		case 0xE:
 			// optional V[X] = V[Y];
 			tmpResult = (V[X] & 0b10000000) >> 7;
 			V[X] <<= 1;
-			V[0xF] = tmpResult;
+			V[0xF] = (Byte)tmpResult;
 			break;
 	}
 }
@@ -421,6 +421,11 @@ bool CPU::Process()
 
 			if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_UP)
 				break;
+			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_0)
+			{
+				steppingMode = !steppingMode;
+				break;
+			}
 			else if (e.type == SDL_QUIT)
 				return false;
 		}
@@ -444,5 +449,14 @@ void CPU::Render(SDLI& sdli)
 
 
 	currentInstructionCount = INSTRUCTIONS_PER_FRAME;
+	timeKeeper.Restart();
+}
+
+void CPU::RenderNoTimers(SDLI& sdli)
+{
+	while (timeKeeper.GetTime() < MILLISECONDS_PER_FRAME);
+
+	disp.DrawBuffer(sdli);
+
 	timeKeeper.Restart();
 }
