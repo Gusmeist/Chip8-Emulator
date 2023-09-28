@@ -136,7 +136,7 @@ int main(int argc, char* args[])
 						isPaused = !isPaused;
 						break;
 					case SDLK_0:
-						cpu.steppingMode = !cpu.steppingMode;
+						cpu.stepping_mode = !cpu.stepping_mode;
 						break;
 
 				}

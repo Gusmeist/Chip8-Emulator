@@ -36,11 +36,6 @@ void CPU::Reset()
 	srand(SDL_GetTicks());
 }
 
-void CPU::UpdateDisplayParams()
-{
-
-}
-
 void CPU::_00EN(Byte n[])
 {
 	// If the last nibble of the instruction, the command is meant to
@@ -428,7 +423,7 @@ bool CPU::Process()
 				break;
 			else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_0)
 			{
-				steppingMode = !steppingMode;
+				stepping_mode = !stepping_mode;
 				break;
 			}
 			else if (e.type == SDL_QUIT)
