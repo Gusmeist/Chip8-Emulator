@@ -27,11 +27,12 @@ cmake --build . --config {Release or Debug}
 ### Controls
 
 The valid keys for interacting with the roms are currently:
+```
     1 2 3 4
     q w e r
     a s d f
     z x c v 
-
+```
 DEBUG KEYS:
 - 0: Toggle stepping mode.  Processes 1 instruction at a time.
   - UP ARROW: While in stepping mode, move forward one instruction.
