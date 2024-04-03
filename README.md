@@ -1,5 +1,7 @@
 # Chip8 Emulator with C++
 
+A work in progress emulator for the Chip8 instruction set written for fun.
+
 ## Overview
 
 This is a very basic emulator of the standard Chip8 instruction set.  It is capable of playing roms (No sound).  More features to come later.
@@ -19,7 +21,8 @@ cd build
 cmake ../
 cmake --build . --config {Release or Debug}
 ```
-4. From your SDL2 download, in the folder ~/SDL2/bin/x86, copy SDL2.dll to the folder {Path to project directory}/build/{Debug or release}.
+   - Alternatively, use CMakeTools in VSCode.
+4. From your SDL2 download, in the folder ~/SDL2/bin/x64, copy SDL2.dll to the folder {Path to project directory}/build/{Debug or release}.
 5. Run the executable.
 
 ## Usage
