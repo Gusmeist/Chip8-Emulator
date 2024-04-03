@@ -1,0 +1,44 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 23,
+    "patch": 0
+  },
+  "include": [
+
+  ],
+  "configurePresets": [
+    {
+      "name": "default",
+      "displayName": "Default Config",
+      "description": "Default build using Ninja generator.",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/default",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_CXX_COMPILER": "g++"
+      },
+      "environment": {
+        "MY_ENVIRONMENT_VARIABLE": "Test",
+        "PATH": "$env{HOME}/ninja/bin:$penv{PATH}"
+      }
+    },
+    {
+      "name": "vs",
+      "displayName": "Visual Studio Debug",
+      "description": "Debugging.",
+      "generator": "Visual Studio 17 2022",
+      "binaryDir": "${sourceDir}/build/x64",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      }
+    }
+  ]
+}
